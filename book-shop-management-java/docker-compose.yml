@@ -1,0 +1,22 @@
+services:
+ mysql:
+  image: mysql:8.4
+  environment:
+   MYSQL_DATABASE: bookshop
+   MYSQL_USER: bookuser
+   MYSQL_PASSWORD: bookpass
+   MYSQL_ROOT_PASSWORD: rootpass
+  volumes: [mysql_data:/var/lib/mysql, ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro]
+ backend:
+  build: ./backend
+  environment:
+   SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/bookshop?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+   SPRING_DATASOURCE_USERNAME: bookuser
+   SPRING_DATASOURCE_PASSWORD: bookpass
+  depends_on: [mysql]
+  ports: ["8080:8080"]
+ frontend:
+  build: ./frontend
+  depends_on: [backend]
+  ports: ["3000:80"]
+volumes: {mysql_data: {}}

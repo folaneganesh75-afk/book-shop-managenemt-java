@@ -1,0 +1,1 @@
+CREATE DATABASE IF NOT EXISTS bookshop; CREATE USER IF NOT EXISTS 'bookuser'@'%' IDENTIFIED BY 'bookpass'; GRANT ALL ON bookshop.* TO 'bookuser'@'%'; FLUSH PRIVILEGES;
